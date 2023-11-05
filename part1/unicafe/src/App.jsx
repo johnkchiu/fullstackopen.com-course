@@ -3,12 +3,10 @@ const Header = (props) => {
 };
 
 const Content = (props) => {
-  return props.parts.map((part) => {
-    return (
-      // eslint-disable-next-line react/jsx-key
-      <Part name={part.name} exercises={part.exercises} />
-    );
-  });
+  return props.parts.map((part) => (
+    // eslint-disable-next-line react/jsx-key
+    <Part name={part.name} exercises={part.exercises} />
+  ));
 };
 
 const Part = (props) => {
