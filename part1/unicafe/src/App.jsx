@@ -1,9 +1,22 @@
 import { useState } from "react";
 
-const Button = ({onClick, text}) =>
-  <button onClick={onClick}>{text}</button>
+const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
 
-const Result = ({name, value}) => <div>{name} {value}</div>
+const Result = ({ name, value }) => (
+  <div>
+    {name} {value}
+  </div>
+);
+
+const Total = ({ feedbacks }) => (
+  <div>all {feedbacks.reduce((a, b) => a + b, 0)}</div>
+);
+
+const Average = ({ good, neutral, bad }) => (
+  <div>average {(good*1 + neutral*0 + bad*-1) / (good + neutral + bad)}</div>
+);
+
+const Positive = ({ good, neutral, bad }) => <div>positive {(good / (good + neutral + bad) * 100)}%</div>;
 
 const App = () => {
   // save clicks of each button to its own state
@@ -36,6 +49,9 @@ const App = () => {
       <Result name="good" value={good} />
       <Result name="neutral" value={neutral} />
       <Result name="bad" value={bad} />
+      <Total feedbacks={[good, neutral, bad]} />
+      <Average good={good} neutral={neutral} bad={bad} />
+      <Positive good={good} neutral={neutral} bad={bad} />
     </div>
   );
 };
