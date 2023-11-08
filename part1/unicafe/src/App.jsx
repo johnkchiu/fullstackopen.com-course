@@ -4,38 +4,27 @@ const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
 
 const Statistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad;
+  const average = (good * 1 + neutral * 0 + bad * -1) / (good + neutral + bad);
+  const positive = (good / (good + neutral + bad)) * 100;
+
   return total == 0 ? (
     "No feedback given"
   ) : (
     <>
-      <Result name="good" value={good} />
-      <Result name="neutral" value={neutral} />
-      <Result name="bad" value={bad} />
-      <Total feedbacks={[good, neutral, bad]} />
-      <Average good={good} neutral={neutral} bad={bad} />
-      <Positive good={good} neutral={neutral} bad={bad} />
+      <StatisticLine text="good" value={good} />
+      <StatisticLine text="neutral" value={neutral} />
+      <StatisticLine text="bad" value={bad} />
+      <StatisticLine text="all" value={total} />
+      <StatisticLine text="average" value={average} />
+      <StatisticLine text="positive" value={`${positive}%`} />
     </>
   );
 };
 
-const Result = ({ name, value }) => (
+const StatisticLine = ({ text, value }) => (
   <div>
-    {name} {value}
+    {text} {value}
   </div>
-);
-
-const Total = ({ feedbacks }) => (
-  <div>all {feedbacks.reduce((a, b) => a + b, 0)}</div>
-);
-
-const Average = ({ good, neutral, bad }) => (
-  <div>
-    average {(good * 1 + neutral * 0 + bad * -1) / (good + neutral + bad)}
-  </div>
-);
-
-const Positive = ({ good, neutral, bad }) => (
-  <div>positive {(good / (good + neutral + bad)) * 100}%</div>
 );
 
 const App = () => {
