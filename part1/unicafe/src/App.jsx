@@ -2,6 +2,17 @@ import { useState } from "react";
 
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
 
+const Statistics = ({ good, neutral, bad }) => (
+  <>
+    <Result name="good" value={good} />
+    <Result name="neutral" value={neutral} />
+    <Result name="bad" value={bad} />
+    <Total feedbacks={[good, neutral, bad]} />
+    <Average good={good} neutral={neutral} bad={bad} />
+    <Positive good={good} neutral={neutral} bad={bad} />
+  </>
+);
+
 const Result = ({ name, value }) => (
   <div>
     {name} {value}
@@ -13,10 +24,14 @@ const Total = ({ feedbacks }) => (
 );
 
 const Average = ({ good, neutral, bad }) => (
-  <div>average {(good*1 + neutral*0 + bad*-1) / (good + neutral + bad)}</div>
+  <div>
+    average {(good * 1 + neutral * 0 + bad * -1) / (good + neutral + bad)}
+  </div>
 );
 
-const Positive = ({ good, neutral, bad }) => <div>positive {(good / (good + neutral + bad) * 100)}%</div>;
+const Positive = ({ good, neutral, bad }) => (
+  <div>positive {(good / (good + neutral + bad)) * 100}%</div>
+);
 
 const App = () => {
   // save clicks of each button to its own state
@@ -46,12 +61,7 @@ const App = () => {
         text={"bad"}
       />
       <h1>statistics</h1>
-      <Result name="good" value={good} />
-      <Result name="neutral" value={neutral} />
-      <Result name="bad" value={bad} />
-      <Total feedbacks={[good, neutral, bad]} />
-      <Average good={good} neutral={neutral} bad={bad} />
-      <Positive good={good} neutral={neutral} bad={bad} />
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   );
 };
