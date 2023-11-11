@@ -24,7 +24,7 @@ const App = () => {
     } else {
       const newPerson = { name: newName, number: newNumber };
 
-      personsServie.create(newPerson).then((returnPerson) => {
+      personsServie.createPerson(newPerson).then((returnPerson) => {
         setPersons(persons.concat(returnPerson));
         setNewName("");
         setNewNumber("");
@@ -42,6 +42,15 @@ const App = () => {
 
   const handleFilter = (event) => {
     setFilter(event.target.value);
+  };
+
+  const deletePerson = (id) => {
+    const person = persons.find((p) => p.id === id);
+    if (window.confirm(`Delete ${person.name}?`)) {
+      personsServie.deletePerson(id).then(() => {
+        setPersons(persons.filter((p) => p.id !== id));
+      });
+    }
   };
 
   const filterPersons =
@@ -62,7 +71,7 @@ const App = () => {
         submitName={submitName}
       />
       <h3>Numbers</h3>
-      <Persons persons={filterPersons} />
+      <Persons persons={filterPersons} deletePerson={deletePerson} />
     </div>
   );
 };
