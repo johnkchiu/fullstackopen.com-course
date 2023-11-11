@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import Filter from "./components/Filter";
+import Notification from "./components/Notification";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import personsServie from "./services/persons";
@@ -10,6 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     personsServie.getAll().then((initPersons) => {
@@ -41,6 +42,7 @@ const App = () => {
             );
             setNewName("");
             setNewNumber("");
+            showMessage(`Updated ${returnPerson.name}`);
           });
       }
     } else {
@@ -51,6 +53,7 @@ const App = () => {
         setPersons(persons.concat(returnPerson));
         setNewName("");
         setNewNumber("");
+        showMessage(`Added ${returnPerson.name}`);
       });
     }
   };
@@ -72,8 +75,18 @@ const App = () => {
     if (window.confirm(`Delete ${person.name}?`)) {
       personsServie.deletePerson(id).then(() => {
         setPersons(persons.filter((p) => p.id !== id));
+        showMessage(`Delete ${person.name}`);
+
+
       });
     }
+  };
+
+  const showMessage = (message) => {
+    setMessage(message);
+    setTimeout(() => {
+      setMessage(null);
+    }, 5000);
   };
 
   const filterPersons =
@@ -84,6 +97,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter filter={filter} handleFilter={handleFilter} />
       <h3>add a new</h3>
       <PersonForm
