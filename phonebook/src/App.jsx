@@ -43,6 +43,13 @@ const App = () => {
             setNewName("");
             setNewNumber("");
             showMessage(`Updated ${returnPerson.name}`);
+          })
+          .catch((error) => {
+            console.log(error);
+            showMessage(
+              `Information of ${person.name} has already been removed from server`
+            );
+            setPersons(persons.filter((p) => p.id !== person.id));
           });
       }
     } else {
@@ -76,8 +83,6 @@ const App = () => {
       personsServie.deletePerson(id).then(() => {
         setPersons(persons.filter((p) => p.id !== id));
         showMessage(`Delete ${person.name}`);
-
-
       });
     }
   };
