@@ -1,8 +1,8 @@
 import React from "react";
 
-const CountryForm = ({ handleChange }) => (
+const CountryForm = ({ country, handleChange }) => (
   <div>
-    find countries <input onChange={handleChange} />
+    find countries <input value={country} onChange={handleChange} />
   </div>
 );
 
