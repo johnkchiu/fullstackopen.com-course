@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
+const morgan = require("morgan");
 
 app.use(express.json());
+app.use(morgan("tiny"));
 
 let persons = [
   {
@@ -73,7 +75,7 @@ app.post("/api/persons", (request, response) => {
   // check if name already exist
   if (persons.find((p) => p.name === body.name)) {
     return response.status(400).json({
-      error: "The name already exists in the phonebook"
+      error: "The name already exists in the phonebook",
     });
   }
 
