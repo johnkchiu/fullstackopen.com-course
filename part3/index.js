@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 
 const requestLogger = (request, response, next) => {
   console.log("Method:", request.method);
@@ -13,9 +14,10 @@ const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: "unknown endpoint" });
 };
 
+app.use(cors());
 app.use(express.json());
 app.use(requestLogger);
-app.use(unknownEndpoint);
+// app.use(unknownEndpoint);
 
 let notes = [
   {
@@ -84,6 +86,30 @@ app.delete("/api/notes/:id", (request, response) => {
   notes = notes.filter((note) => note.id !== id);
 
   response.status(204).end();
+});
+
+app.put("/api/notes/:id", (request, response) => {
+  const id = Number(request.params.id);
+  const body = request.body;
+
+  if (!(body.id !== null) || !body.content || !(body.important !== null)) {
+    return response.status(400).json({
+      error: "id, content, or important is missing",
+    });
+  }
+  const i = notes.findIndex((note) => note.id === id);
+
+  if (i >= 0) {
+    const note = {
+      content: body.content,
+      important: body.important,
+      id: body.id,
+    };
+    notes[i] = note;
+    response.json(note);
+  } else {
+    response.status(404).end();
+  }
 });
 
 const PORT = 3001;

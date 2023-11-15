@@ -1,7 +1,16 @@
 GET http://localhost:3001/api/notes/
 
 ###
+GET http://localhost:3001/api/notes/1
+
+###
 GET http://localhost:3001/api/wrong/
+
+###
+PUT http://localhost:3001/api/notes/1 HTTP/1.1
+content-type: application/json
+
+{ "id": 1, "content": "HTML is easy", "important": false }
 
 ###
 POST http://localhost:3001/api/notes/ HTTP/1.1
